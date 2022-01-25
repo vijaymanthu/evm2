@@ -1,0 +1,8 @@
+.shadows:hover{
+    box-shadow : 0 0 16px rgb(239, 239, 243);
+}
+.shadows{
+    box-shadow : 0 0 16px 0 red
+}
+
+

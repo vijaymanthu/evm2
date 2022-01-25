@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block navbar_right %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'staffs' %}>Home</a>
+    </li>
+    <li class="nav-item ">
+        <a class="nav-link" href={% url 'logout' %}><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </li>
+</ul>
+{% endblock navbar_right %}
+
+
+{% block user_type %}
+    (<h5 class="text-danger">Staff</h5>)
+
+{% endblock user_type %}
+
+{% block body %}
+<div class="row text-center mt-5">
+    <h2>Event Name: &nbsp<span class="text-success">{{eventName}}</span></h2>
+</div>
+<div class="container">
+    {% if res_stds %}
+    <table class="table table-stripped" id="resstd">
+        <thead class="table-primary">
+            <tr>
+                <th>slNo</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Department</th>
+                <th>Student ID</th>
+                <th>Registered Date and Time</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            
+{% for students in res_stds  %}
+            <tr>
+                <td>{{forloop.counter}}</td>
+                <td>{{students.first_name}}</td>
+                <td>{{students.last_name}}</td>
+                <td>{{students.department}}</td>
+                <td>{{students.student_id}}</td>
+                <td>{{students.reg_date}}</td>
+            </tr>
+            
+{% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <h4 class="text-danger text-center mt-5">No Students Assigned Registered</h4>
+    {% endif %}
+    
+</div>
+<p>{{ students.first_name}}</p>
+{% endblock %}
+{% block footer %}
+
+{% endblock %}

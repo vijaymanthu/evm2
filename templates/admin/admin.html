@@ -1,0 +1,31 @@
+{% extends '../base.html' %}
+{% comment %} {% if not user_data == 'admin' %}
+    <script>
+        document.location = "../login"
+    </script
+{% endif %} {% endcomment %}
+{% block navbar_right%}
+    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+            <a class="nav-link " href={% url 'admin' %}>Home</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link " href={% url 'events' %}>Events</a>
+        </li>
+        <li class="nav-item ">
+            <a class="nav-link" href={% url 'logout' %}><i class="fas fa-sign-out-alt"></i>Logout</a>
+        </li>
+    </ul>
+{% endblock %}
+
+{% block user_type %}
+    (<h5 class="text-danger">Admin</h5>)
+
+    {% endblock user_type %}
+
+    {% block body %}
+    <div class="row">
+        <h1 class="text-warning p-4 m-3"><i class="fas fa-user-circle"></i><span class="text-dark h3">{{user_data.first_name}} {{user_data.last_name}}</span></h1>
+    </div>
+{% endblock body %}
+

@@ -1,0 +1,114 @@
+{% extends '../base.html' %}
+{% block navbar_right%}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'admin' %}>Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'events' %}>Events</a>
+    </li>
+    <li class="nav-item ">
+        <a class="nav-link" href={% url 'logout' %}><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </li>
+</ul>
+{% endblock %}
+{% block user_type %}(<h5 class="text-danger">Admin</h5>){% endblock user_type %}
+{% block body %}
+<div class="row">
+    <h1 class="text-warning p-4 m-3"><i class="fas fa-user-circle"></i><span class="text-dark h3">{{user_data.first_name}} {{user_data.last_name}}</span></h1>
+</div>
+
+<div class="container mt-5">
+    <button id="addEventButton" onclick="displayAddEvent()" class="btn btn-primary btn-sm rounded m-3"><i class="fas fa-plus p-1"></i>Add Event</button>
+    <table id="events_list" class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>sl.No</th>
+                <th>Event Name</th>
+                <th>Description</th>
+                <th>Organised By</th>
+                <th>Start date</th>
+                <th>End Date</th>
+                <th colspan="2">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr hidden="true" id="addEventDiv">
+                <td></td>
+                <form action={% url 'add_event' %} method="post">
+                    {% csrf_token %}
+                <td>
+                    <input type="text" name="event_name" id="event_name" class="form-control" />
+                </td> 
+                <td>
+                    <textarea name="description" id="description" class="form-control"></textarea>
+                </td>
+                <td>
+                    <select name="organised_by" class="form-control">
+                        <option value="" selected>SELECT</option>
+                        <option value="MCA">MCA</option>
+                        <option value="MBA">MBA</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="date" name="start_date" id="start_date" class="form-control" />
+                </td>
+                <td>
+                    <input type="date" name="end_date" id="end_date" class="form-control" />
+                </td>
+                <td>
+                    <button type="submit" class="btn btn-primary">ADD</button>
+                </td>
+            </tr>
+            {% for event in event_list%}
+            <tr>
+                <td>
+                    {{forloop.counter}}            
+                </td>
+                <td> 
+                    {{event.event_name}}             
+                </td>
+                <td>
+                    {{event.description}}
+                </td>
+                <td>
+                   {{event.organised_by}}              
+                </td>
+                <td>
+                    {{event.start_date}}               
+                </td>
+                <td>  
+                   {{event.end_date}}              
+                </td>
+               
+
+                <td>
+                    <a href={% url 'delete_event' event.id %} title="Delete Event" class="text-danger"><i class="fas fa-trash"></i></a>              
+                </td> 
+                <td>
+                    <a href={% url 'update_event' event.id %} title="Edit Event" class="text-success"><i class="fas fa-pen-fancy"></i></a>              
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}
+
+{% block footer %}
+    
+    
+    <script>
+            function displayAddEvent(){
+                var v = document.getElementById("addEventDiv").hidden;
+                document.getElementById("addEventDiv").hidden = !v
+        }
+    
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#event_list').DataTable();
+        } );
+    </script>
+{% endblock footer %}
+

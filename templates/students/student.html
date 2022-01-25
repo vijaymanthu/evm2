@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block navbar_right %}
+<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'student' %}>Home</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'view_status' %}>View status</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " href={% url 'profile' %}>profile</a>
+    </li>
+    <li class="nav-item ">
+        <a class="nav-link" href={% url 'logout' %}><i class="fas fa-sign-out-alt"></i>Logout</a>
+    </li>
+</ul>
+{% endblock navbar_right %}
+
+
+{% block user_type %}
+    (<h5 class="text-danger">student</h5>)
+
+{% endblock user_type %}
+
+{% block body %}
+<div class="row">
+        <h1 class="text-warning p-4 m-2"><i class="fas fa-user-circle"></i><span class="text-dark h3">{{user_data.first_name}} {{user_data.last_name}}</span></h1>
+    </div>
+    <div class="container-fluid">
+        <h2 class="text-secondary text-center mb-3">Event List</h2>
+        <div class="container">
+            {% for event in event%}
+            <div  style="box-shadow:0 10px 16px 0" class="card m-4">
+                <div class="card-title m-3">
+                    <h2>{{ event.event_name }}</h2>
+                </div>
+                <div class="card-body">
+                    <div class="image_div d-lg-flex justify-content-between">
+                    <p>{{event.description}}</p>
+                    </div>
+                    <div class="image_div d-lg-flex justify-content-evenly">
+                    <p>Event Date:<strong style="margin-left:10px;" >{{event.start_date}}<strong> To <strong style="margin-left:10px" >{{event.end_date}}<strong> </p>
+                    <p>Oraganised By   :<strong style="margin-left:20px;margin-right:10px">{{ event.organised_by}}</strong><span>Deparment</span></p>
+                    </div>
+                    <form action="{% url 'event_reg' %}" method="post">
+                         {% csrf_token %}
+                         <input type="hidden" name="dept" value="{{ event.organised_by}}">
+                        <input type="hidden" name="event_id" value="{{ event.id}}">
+                        {% if event.id in reg_event %}
+                        <p class="h3 text-success">Registered</p>
+                        {% else %}
+                        <button class="btn btn-warning" name="">Register</button>
+                        {% endif %} 
+                        
+                    </form>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+{% endblock body %} 
+
+
+
